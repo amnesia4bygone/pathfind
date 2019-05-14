@@ -10,16 +10,16 @@
 
 using namespace std;
 
-###  todo
-#  城市比较少, 后续loop的改进效率不大.  可以break.  收益不大
-#
+//  todo
+//  城市比较少, 后续loop的改进效率不大.  可以break.  收益不大
+//
 
 
-const int order_num = 40;
-
+const int order_num = 9;
+int offset = 0;
 vector< vector<int> > od_map (order_num+1, vector<int>(order_num+1, -1)) ;
 
-const double  T     =   10000   ; //初始温度  
+const double  T     =   2000   ; //初始温度  
 const double  EPS   =   1e-8   ; //终止温度  
 const double  DELTA =   0.98   ; //温度衰减率  
 #define LIMIT 300   //概率选择上限  
@@ -102,11 +102,17 @@ int judge( int s_new, int s_old, double t )
         return 1;
 
     double d = exp(-( (s_new - s_old) / t) );
-    double rand = 0.001;
-    if(d > rand)
+    double rand_value = rand() /  (RAND_MAX + 1.0);
+    if(d > rand_value)
+    {
+        printf("1 %f %f\n", d, rand_value);
         return 1;
+    }
     else
+    {
+        printf("0 %f %f\n", d, rand_value);
         return 0;    
+    }
 }
 
 
@@ -123,7 +129,7 @@ int main(void)
     vector<int> cur_result(myints.begin(),  myints.end() );
     int cur_cost = cal_dis(cur_result);  
 
-    int offset = 0;
+    
 
     vector<int> next_result;
 
@@ -146,10 +152,14 @@ int main(void)
 
         offset++;
 
-        if (offset%10 == 0)
+        if (offset%100 == 0)
             printf("%d loop  t_current=%f  cost= %d\n", offset, t_current, cur_cost);
     }
 
+    for (int i=0; i<cur_result.size(); i++)
+        printf("%d ", cur_result[i]);
+    printf("\n%d\n", cur_cost);
     return 0;
 }
+
 
