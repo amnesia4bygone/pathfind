@@ -10,6 +10,10 @@
 
 using namespace std;
 
+###  todo
+#  城市比较少, 后续loop的改进效率不大.  可以break.  收益不大
+#
+
 
 const int order_num = 40;
 
